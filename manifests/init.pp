@@ -4,6 +4,7 @@
 #
 class torquebox (
   $use_latest       = false,
+  $ignore_java      = false,
   $openjdk_version  = 6,
   $openjdk_variant  = 'headless',
 
@@ -30,10 +31,12 @@ class torquebox (
   $torquebox_package = "torquebox-dist-${version}-bin.zip"
   $torquebox_source = "http://repository-projectodd.forge.cloudbees.com/release/org/torquebox/torquebox-dist/${version}/${torquebox_package}"
 
-  class { 'torquebox::java':
-    use_latest      => $use_latest,
-    openjdk_version => $openjdk_version,
-    openjdk_variant => $openjdk_variant
+  if $ignore_java == true {
+    class { 'torquebox::java':
+      use_latest      => $use_latest,
+      openjdk_version => $openjdk_version,
+      openjdk_variant => $openjdk_variant
+    }
   }
 
   package { 'unzip':
